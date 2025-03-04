@@ -6,11 +6,10 @@ import lombok.Setter;
 import memorial.core.common.enums.BenefitType;
 import memorial.core.common.enums.MemberGrade;
 import memorial.core.common.enums.MemberStatus;
-import org.springframework.data.annotation.CreatedDate;
+import memorial.core.domain.memorial.Memorial;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,12 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "member")
 @EntityListeners(AuditingEntityListener.class)
-public class Member {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "member_id", nullable = false)
-    private Long id;
+public class Member extends BaseEntity {
 
     private String name;
 
@@ -34,9 +28,6 @@ public class Member {
 
     private Boolean isBenefit;
     private BenefitType benefitType;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "member")
     private List<Memorial> memorials;

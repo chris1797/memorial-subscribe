@@ -1,4 +1,4 @@
-package memorial.core.config.error;
+package memorial.core.api.error;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,20 +10,20 @@ import java.util.List;
 
 @Builder
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ErrorResponse {
 
     private String code;
     private String message;
-    private List<FieldError> errors;
+    private Object error;
 
-    private ErrorResponse(ErrorCode code, List<FieldError> fieldErrors) {
+    public ErrorResponse(ErrorCode code, Object error) {
         this.code = code.getCode();
         this.message = code.getMessage();
-        this.errors = fieldErrors;
+        this.error = error;
     }
 
-    private ErrorResponse(ErrorCode code) {
+    public ErrorResponse(ErrorCode code) {
         this.code = code.getCode();
         this.message = code.getMessage();
     }

@@ -1,8 +1,8 @@
 package memorial.core.config;
 
 import lombok.extern.slf4j.Slf4j;
-import memorial.core.config.error.ErrorCode;
-import memorial.core.config.error.ErrorResponse;
+import memorial.core.api.error.ErrorCode;
+import memorial.core.api.error.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

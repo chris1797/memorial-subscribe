@@ -1,4 +1,4 @@
-package memorial.core.config.error;
+package memorial.core.api.error;
 
 
 import lombok.Getter;
