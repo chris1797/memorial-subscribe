@@ -2,8 +2,10 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      POSTGRES_DB: memorial
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD:
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
     ports:
-      - '61227'
+      - "5433:5432"
+
