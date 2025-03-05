@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import memorial.core.api.request.MemorialRequestDto;
-import memorial.core.api.response.MemorialResponseDto;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -12,8 +11,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemorialService {
 
+    private final MemorialRepository memorialRepository;
+
     @Transactional(rollbackOn = Exception.class)
-    public MemorialResponseDto save(MemorialRequestDto requestDto) {
-        return null;
+    public Long save(MemorialRequestDto requestDto) {
+        Memorial memorial = Memorial.of(requestDto);
+        return memorialRepository.save(memorial).getId();
     }
 }
