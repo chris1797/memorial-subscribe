@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import memorial.core.common.enums.ProductCode;
+import memorial.core.domain.member.Member;
 
 import java.math.BigDecimal;
 

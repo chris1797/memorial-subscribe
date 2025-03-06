@@ -3,7 +3,7 @@ package memorial.core.domain.memorial;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import memorial.core.api.request.MemorialRequestDto;
-import memorial.core.domain.Member;
+import memorial.core.domain.member.Member;
 import memorial.core.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

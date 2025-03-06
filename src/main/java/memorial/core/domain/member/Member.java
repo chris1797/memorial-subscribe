@@ -1,4 +1,4 @@
-package memorial.core.domain;
+package memorial.core.domain.member;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,6 +6,7 @@ import lombok.Setter;
 import memorial.core.common.enums.BenefitType;
 import memorial.core.common.enums.MemberGrade;
 import memorial.core.common.enums.MemberStatus;
+import memorial.core.domain.BaseEntity;
 import memorial.core.domain.memorial.Memorial;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

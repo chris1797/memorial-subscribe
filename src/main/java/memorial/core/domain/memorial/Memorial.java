@@ -1,15 +1,13 @@
 package memorial.core.domain.memorial;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import memorial.core.api.request.MemorialRequestDto;
 import memorial.core.common.enums.MemorialStatus;
 import memorial.core.domain.BaseEntity;
-import memorial.core.domain.Member;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import memorial.core.domain.member.Member;
 
 @Getter
 @Setter
