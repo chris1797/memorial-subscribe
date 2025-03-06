@@ -1,7 +1,9 @@
 package memorial.core.domain.memorial;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import memorial.core.api.request.MemorialRequestDto;
 import memorial.core.common.enums.MemorialStatus;
@@ -12,10 +14,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Memorial extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     private String title;
@@ -26,12 +29,21 @@ public class Memorial extends BaseEntity {
 
     private Boolean isPublic;
 
+    private Memorial(String title, MemorialStatus memorialStatus, Boolean isInside, Boolean isPublic, Member member) {
+        this.title = title;
+        this.memorialStatus = memorialStatus;
+        this.isInside = isInside;
+        this.isPublic = isPublic;
+        this.member = member;
+    }
 
-    public static Memorial of(MemorialRequestDto requestDto) {
-        Memorial memorial = new Memorial();
-        memorial.setTitle(requestDto.title());
-        memorial.setIsInside(requestDto.isInside());
-        memorial.setIsPublic(requestDto.isPublic());
-        return memorial;
+    public static Memorial of(MemorialRequestDto requestDto, Member member) {
+        return new Memorial(
+                requestDto.title(),
+                requestDto.memorialStatus(),
+                requestDto.isInside(),
+                requestDto.isPublic(),
+                member
+        );
     }
 }
