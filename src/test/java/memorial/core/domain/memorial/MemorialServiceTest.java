@@ -1,7 +1,7 @@
 package memorial.core.domain.memorial;
 
+import jakarta.transaction.Transactional;
 import memorial.core.api.request.MemorialRequestDto;
-import memorial.core.common.enums.MemorialStatus;
 import memorial.core.domain.member.Member;
 import memorial.core.domain.member.MemberRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,7 +32,6 @@ class MemorialServiceTest {
         requestDto = new MemorialRequestDto(
                 1L,
                 "test",
-                MemorialStatus.ACTIVE,
                 false,
                 false);
 

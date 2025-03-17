@@ -4,5 +4,5 @@ public enum MemorialStatus {
 
     ACTIVE,
     EXPIRED,
-    DELETED
+    DELETED;
 }

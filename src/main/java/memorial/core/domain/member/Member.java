@@ -30,6 +30,12 @@ public class Member extends BaseEntity {
     private Boolean isBenefit;
     private BenefitType benefitType;
 
-    @OneToMany(mappedBy = "member")
-    private List<Memorial> memorials;
+
+    /**
+     * 회원의 추모관 생성 가능여부 검사
+     * @return boolean
+     */
+    public boolean canMakeMemorial() {
+        return this.memberStatus == MemberStatus.ACTIVE && this.memberGrade != MemberGrade.FREE;
+    }
 }

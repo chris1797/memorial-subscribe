@@ -22,6 +22,9 @@ public class MemorialService {
         Member member = memberRepository.findById(requestDto.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
+        if (!member.canMakeMemorial()) throw new IllegalArgumentException("Member cannot make memorials");
+
+
         Memorial memorial = Memorial.of(requestDto, member);
         return memorialRepository.save(memorial).getId();
     }

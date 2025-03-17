@@ -4,9 +4,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.validation.FieldError;
-
-import java.util.List;
 
 @Builder
 @Getter

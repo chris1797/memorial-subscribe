@@ -8,6 +8,7 @@ import memorial.core.api.request.MemorialRequestDto;
 import memorial.core.common.enums.MemorialStatus;
 import memorial.core.domain.BaseEntity;
 import memorial.core.domain.member.Member;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -21,27 +22,29 @@ public class Memorial extends BaseEntity {
 
     private String title;
 
-    private MemorialStatus memorialStatus;
+    @Column(name = "memorial_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MemorialStatus memorialStatus = MemorialStatus.ACTIVE;
 
     private Boolean isInside;
 
     private Boolean isPublic;
 
-    private Memorial(String title, MemorialStatus memorialStatus, Boolean isInside, Boolean isPublic, Member member) {
-        this.title = title;
-        this.memorialStatus = memorialStatus;
-        this.isInside = isInside;
-        this.isPublic = isPublic;
-        this.member = member;
-    }
 
     public static Memorial of(MemorialRequestDto requestDto, Member member) {
         return new Memorial(
                 requestDto.title(),
-                requestDto.memorialStatus(),
                 requestDto.isInside(),
                 requestDto.isPublic(),
                 member
         );
     }
+
+    private Memorial(String title, Boolean isInside, Boolean isPublic, Member member) {
+        this.title = title;
+        this.isInside = isInside;
+        this.isPublic = isPublic;
+        this.member = member;
+    }
+
 }
