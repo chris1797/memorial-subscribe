@@ -26,9 +26,13 @@ public class Memorial extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemorialStatus memorialStatus = MemorialStatus.ACTIVE;
 
-    private Boolean isInside;
+    // columnDefinition: DDL 생성 시 기본값을 설정함
+    // columnDefinition 설정, 혹은 아래처럼 직접 default 값을 설정
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean isInside = true;
 
-    private Boolean isPublic;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isPublic = false;
 
 
     public static Memorial of(MemorialRequestDto requestDto, Member member) {
