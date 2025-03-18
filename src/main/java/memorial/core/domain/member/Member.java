@@ -24,8 +24,12 @@ public class Member extends BaseEntity {
 
     private String phone;
     private LocalDate birthDate;
-    private MemberGrade memberGrade;
-    private MemberStatus memberStatus;
+
+    @Enumerated(EnumType.STRING)
+    private MemberGrade memberGrade = MemberGrade.BASIC;
+
+    @Enumerated(EnumType.STRING)
+    private MemberStatus memberStatus = MemberStatus.ACTIVE;
 
     private Boolean isBenefit;
     private BenefitType benefitType;

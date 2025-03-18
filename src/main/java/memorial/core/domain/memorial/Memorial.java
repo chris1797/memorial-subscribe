@@ -20,6 +20,7 @@ public class Memorial extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Column(nullable = false)
     private String title;
 
     @Column(name = "memorial_status", nullable = false)
