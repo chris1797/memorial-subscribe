@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -20,3 +20,5 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+        order_updates: true
+        order_inserts: true
