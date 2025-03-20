@@ -1,6 +1,7 @@
 package memorial.core.domain.member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import memorial.core.api.request.MemberRequestDto;
 import memorial.core.domain.benefitExpire.BenefitExpireService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -17,9 +19,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
 
-
-    public Member isExistId(Long id) {
-        return memberRepository.findById(id).orElse(null);
+    public Boolean isExistPhone(String phone) {
+        return memberRepository.existsByPhone(phone);
     }
 
     public Member save(MemberRequestDto memberRequestDto) {
