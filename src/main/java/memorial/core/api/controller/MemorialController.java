@@ -17,8 +17,9 @@ public class MemorialController {
 
     private final MemorialService memorialService;
 
+
     @PostMapping("/memorial")
-    public ApiResponse<?> save(@RequestBody MemorialRequestDto requestDto) {
+    public ApiResponse<MemorialResponseDto> save(@RequestBody MemorialRequestDto requestDto) {
         return ApiResponse.success(memorialService.save(requestDto));
     }
 

@@ -1,9 +1,8 @@
 package memorial.core.domain.member;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import memorial.core.api.request.MemberRequestDto;
 import memorial.core.common.enums.BenefitType;
 import memorial.core.common.enums.MemberGrade;
@@ -18,7 +17,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "member")
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@SuperBuilder
 public class Member extends BaseEntity {
 
     @Column(nullable = false)

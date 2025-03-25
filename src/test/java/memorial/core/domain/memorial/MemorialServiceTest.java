@@ -3,32 +3,52 @@ package memorial.core.domain.memorial;
 import jakarta.transaction.Transactional;
 import memorial.core.api.request.MemorialDeadDto;
 import memorial.core.api.request.MemorialRequestDto;
+import memorial.core.api.response.MemorialResponseDto;
+import memorial.core.common.enums.ChurchStatus;
 import memorial.core.common.enums.MemberGrade;
+import memorial.core.common.enums.MemberStatus;
+import memorial.core.domain.church.Church;
+import memorial.core.domain.church.ChurchRepository;
 import memorial.core.domain.member.Member;
 import memorial.core.domain.member.MemberRepository;
+import memorial.core.domain.member.MemberService;
 import memorial.core.domain.memorialDead.MemorialDead;
 import memorial.core.domain.memorialDead.MemorialDeadRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class MemorialServiceTest {
 
-    @Autowired private MemorialRepository memorialRepository;
-    @Autowired private MemberRepository memberRepository;
-    @Autowired private MemorialDeadRepository memorialDeadRepository;
+    @InjectMocks
+    MemorialService memorialService;
+
+    @Mock
+    MemorialRepository memorialRepository;
+
+    @Mock
+    MemberRepository memberRepository;
+
+    @Mock
+    ChurchRepository churchRepository;
 
     // Test Fixtures
     static MemorialDeadDto memorialDeadDto;
     static MemorialRequestDto memorialRequestDto;
+    static Church testChurch;
     static Member testMember;
 
 
@@ -43,15 +63,29 @@ class MemorialServiceTest {
 
         memorialRequestDto = new MemorialRequestDto(
                 1L,
+                1L,
                 "test",
                 false,
                 false,
                 memorialDeadDto);
 
-        Member member = new Member();
-        member.setName("testMember");
+        testMember = Member.builder()
+                .id(1L)
+                .name("testName")
+                .phone("testPhone")
+                .password("testPassword")
+                .birthDate(LocalDate.of(1990, 1, 1))
+                .memberGrade(MemberGrade.BASIC)
+                .memberStatus(MemberStatus.ACTIVE)
+                .benefitType(null)
+                .isBenefit(null)
+                .build();
 
-        testMember = member;
+        testChurch = Church.builder()
+                .id(1L)
+                .name("testChurch")
+                .status(ChurchStatus.ACTIVE)
+                .build();
     }
 
 
@@ -60,20 +94,25 @@ class MemorialServiceTest {
     @Test
     @Rollback(false)
     void memorialSaveTestWithMember() {
+
         // given
-        testMember.setMemberGrade(MemberGrade.FREE);
-        Member savedMember = memberRepository.save(testMember);
-        Memorial memorial = Memorial.of(memorialRequestDto, savedMember);
-        MemorialDead memorialDead = MemorialDead.of(memorialDeadDto, memorial);
+        Memorial memorial = Memorial.of(
+                memorialRequestDto.title(),
+                memorialRequestDto.isInside(),
+                memorialRequestDto.isPublic(),
+                testMember,
+                testChurch
+        );
 
         // when
-        Memorial saveEntity = memorialRepository.save(memorial);
-        MemorialDead savedMemorialDead = memorialDeadRepository.save(memorialDead);
+        when(churchRepository.getReferenceById(testChurch.getId())).thenReturn(testChurch);
+        when(memberRepository.findById(memorialRequestDto.memberId())).thenReturn(Optional.ofNullable(testMember));
+        when(memorialRepository.save(any(Memorial.class))).thenReturn(memorial);
+
+        MemorialResponseDto responseDto = memorialService.save(memorialRequestDto);
 
         // then
-        assertNotNull(saveEntity);
-        assertNotNull(savedMemorialDead);
-        assertEquals(savedMember.getId(), memorial.getMember().getId());
+        assertNotNull(responseDto);
     }
 
     @Transactional

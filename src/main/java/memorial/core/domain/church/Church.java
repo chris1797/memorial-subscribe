@@ -2,23 +2,29 @@ package memorial.core.domain.church;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import memorial.core.common.enums.ChurchStatus;
 import memorial.core.domain.BaseEntity;
 
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@SuperBuilder
 public class Church extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Enumerated
-    private ChurchStatus churchStatus;
+    private ChurchStatus status;
 
     private String latitude;
 
