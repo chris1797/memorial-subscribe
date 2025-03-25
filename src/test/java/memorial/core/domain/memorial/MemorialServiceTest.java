@@ -1,6 +1,5 @@
 package memorial.core.domain.memorial;
 
-import jakarta.transaction.Transactional;
 import memorial.core.api.request.MemorialDeadDto;
 import memorial.core.api.request.MemorialRequestDto;
 import memorial.core.api.response.MemorialResponseDto;
@@ -11,26 +10,22 @@ import memorial.core.domain.church.Church;
 import memorial.core.domain.church.ChurchRepository;
 import memorial.core.domain.member.Member;
 import memorial.core.domain.member.MemberRepository;
-import memorial.core.domain.member.MemberService;
-import memorial.core.domain.memorialDead.MemorialDead;
-import memorial.core.domain.memorialDead.MemorialDeadRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MemorialServiceTest {
 
     @InjectMocks
@@ -89,12 +84,10 @@ class MemorialServiceTest {
     }
 
 
-    @Transactional
     @DisplayName("추모관 저장 테스트")
     @Test
-    @Rollback(false)
+    @Order(1)
     void memorialSaveTestWithMember() {
-
         // given
         Memorial memorial = Memorial.of(
                 memorialRequestDto.title(),
@@ -115,10 +108,9 @@ class MemorialServiceTest {
         assertNotNull(responseDto);
     }
 
-    @Transactional
     @DisplayName("FREE 회원 추모관 저장 사전검사 테스트")
     @Test
-    @Rollback(false)
+    @Order(2)
     void freeMemberMakeMemorialFailTest() {
         // given
         testMember.setMemberGrade(MemberGrade.FREE);
