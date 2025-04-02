@@ -26,3 +26,4 @@ Stack
 배포된 서비스 이미지
 ---
 <img width="305" alt="Image" src="https://github.com/user-attachments/assets/f4b4aae1-40d2-4b8f-aeb9-828301336378" />
+<img width="304" alt="Image" src="https://github.com/user-attachments/assets/07f3e96f-acc0-47f6-ac99-17c34d3b3a70" />
