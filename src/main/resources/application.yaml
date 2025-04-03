@@ -22,3 +22,7 @@ spring:
             non_contextual_creation: true
         order_updates: true
         order_inserts: true
+
+security:
+  jwt:
+    secret-key: "memorial-subscription-test-secret-key"
