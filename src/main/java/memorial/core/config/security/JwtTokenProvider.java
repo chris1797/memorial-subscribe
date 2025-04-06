@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+/*
+ * JWT 유틸리티 클래스
+ * 역할: JWT 생성, 검증, 파싱, 클레임 추출 등의 기능을 제공
+ */
 @Component
 public class JwtTokenProvider {
-    /*
-     * JWT 유틸리티 클래스
-     * 역할: JWT 생성, 검증, 파싱, 클레임 추출 등의 기능을 제공
-     */
 
     @Value("${security.jwt.secret-key}")
     private String secretKey;

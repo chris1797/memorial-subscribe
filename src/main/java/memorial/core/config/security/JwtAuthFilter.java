@@ -12,6 +12,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    private final JwtTokenProvider jwtTokenProvider;
+
     /**
      * OncePerRequestFilter는 매 요청마다 한번의 필터링의 수행을 보장하는 필터이다.
      */
@@ -23,6 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
             jwtToken = jwtToken.substring(7);
+//            String username = jwtTokenProvider.extractUsername(jwtToken);
             // JWT 검증 로직 추가
             // 예: JwtUtil.validateToken(jwtToken);
         }
