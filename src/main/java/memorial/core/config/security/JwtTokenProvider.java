@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,8 @@ public class JwtTokenProvider {
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
+    private final long EXPIRATION_MS = 1000 * 60 * 60 * 24; // 1일
+
     /**
      * JWT 토큰을 생성
      * @param authentication 인증 정보
@@ -36,7 +39,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claims(claims)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1일
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_MS)) // 1일
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
     }
@@ -48,18 +51,42 @@ public class JwtTokenProvider {
      */
     public boolean validateToken(String token) {
         try {
-            SecretKey secretKey = Keys.hmacShaKeyFor(this.secretKey.getBytes());
-
-            Claims claims = Jwts.parser()
-                    .verifyWith(secretKey)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+            Claims claims = extractAllClaims(token);
 
             // 토큰이 만료되었는지 확인
             return !claims.getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public UsernamePasswordAuthenticationToken getAuthentication(String token) {
+        Claims claims = extractAllClaims(token);
+        String username = claims.getSubject();
+
+        if (username != null) {
+            // 사용자 정보, 비밀번호 정보, 권한 정보
+            return new UsernamePasswordAuthenticationToken(username, null, null);
+        }
+
+        return null;
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractAllClaims(token).getExpiration().before(new Date());
+    }
+
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
+    }
+
+    private Claims extractAllClaims(String token) {
+        SecretKey secretKey = Keys.hmacShaKeyFor(this.secretKey.getBytes());
+
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }
