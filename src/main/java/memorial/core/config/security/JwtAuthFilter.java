@@ -5,27 +5,30 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * OncePerRequestFilter는 매 요청마다 한번의 필터링의 수행을 보장.
+ */
+@Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomUserDetailsService userDetailsService;
 
-    /**
-     * OncePerRequestFilter는 매 요청마다 한번의 필터링의 수행을 보장하는 필터이다.
-     */
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // JWT 토큰을 헤더에서 추출.
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
@@ -33,10 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             try {
                 String username = jwtTokenProvider.extractUsername(jwtToken);
-
-                // 토큰이 유효하고, SecurityContext에 인증 정보가 없는 경우
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
                     // 1. DB에서 사용자 정보 조회 방식
                     // UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
@@ -53,9 +53,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
             }
         }
-
         // 다음 필터로 요청 전달.
         filterChain.doFilter(request, response);
-
     }
 }

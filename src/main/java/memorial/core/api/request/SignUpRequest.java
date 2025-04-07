@@ -2,7 +2,7 @@ package memorial.core.api.request;
 
 import java.time.LocalDate;
 
-public record MemberRequestDto(
+public record SignUpRequest(
 //        Long churchId,
         String name,
         String phone,

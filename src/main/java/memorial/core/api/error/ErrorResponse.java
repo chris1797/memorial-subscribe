@@ -14,9 +14,9 @@ public class ErrorResponse {
     private String message;
     private Object error;
 
-    public ErrorResponse(ErrorCode code, Object error) {
+    public ErrorResponse(ErrorCode code, String message, Object error) {
         this.code = code.getCode();
-        this.message = code.getMessage();
+        this.message = message;
         this.error = error;
     }
 
@@ -25,8 +25,8 @@ public class ErrorResponse {
         this.message = code.getMessage();
     }
 
-    public static ErrorResponse of(ErrorCode code) {
-        return new ErrorResponse(code);
+    public static ErrorResponse of(ErrorCode code, String message, Object error) {
+        return new ErrorResponse(code, message, error);
     }
 
 }

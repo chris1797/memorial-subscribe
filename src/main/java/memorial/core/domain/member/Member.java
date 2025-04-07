@@ -3,7 +3,7 @@ package memorial.core.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import memorial.core.api.request.MemberRequestDto;
+import memorial.core.api.request.SignUpRequest;
 import memorial.core.common.enums.BenefitType;
 import memorial.core.common.enums.MemberGrade;
 import memorial.core.common.enums.MemberStatus;
@@ -45,7 +45,7 @@ public class Member extends BaseEntity {
     private Boolean isBenefit;
 
 
-    private Member(MemberRequestDto requestDto, LocalDate benefitExpireAt) {
+    private Member(SignUpRequest requestDto, LocalDate benefitExpireAt) {
         this.name = requestDto.name();
         this.phone = requestDto.phone();
         this.birthDate = requestDto.birthDate();
@@ -53,7 +53,7 @@ public class Member extends BaseEntity {
         setBenefitInfo(benefitExpireAt);
     }
 
-    public static Member of(MemberRequestDto requestDto, LocalDate benefitExpireAt) {
+    public static Member of(SignUpRequest requestDto, LocalDate benefitExpireAt) {
         return new Member(
                 requestDto,
                 benefitExpireAt
@@ -77,7 +77,6 @@ public class Member extends BaseEntity {
             this.isBenefit = false;
             this.benefitType = BenefitType.NONE;
         }
-
     }
 
 }

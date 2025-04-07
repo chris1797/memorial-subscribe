@@ -29,7 +29,7 @@ public class JwtTokenProvider {
      * @param authentication 인증 정보
      * @return 생성된 JWT 토큰
      */
-    public String createToken(Authentication authentication) {
+    public String generateToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         Claims claims = Jwts.claims()

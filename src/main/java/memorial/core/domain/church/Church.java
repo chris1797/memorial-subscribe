@@ -23,8 +23,7 @@ public class Church extends BaseEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ChurchStatus status;
+    private ChurchStatus status = ChurchStatus.ACTIVE;
 
     private String latitude;
 
