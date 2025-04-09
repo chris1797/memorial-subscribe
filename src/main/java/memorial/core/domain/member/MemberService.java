@@ -44,7 +44,7 @@ public class MemberService {
         Member member = Member.of(signUpRequest, benefitExpireAt);
         member.setPassword(passwordEncoder.encode(signUpRequest.password()));
 
-        return SignUpResponse.of(memberRepository.save(member));
+        return SignUpResponse.from(memberRepository.save(member));
     }
 
     public LoginResponse login(LoginRequestDto loginRequestDto) {

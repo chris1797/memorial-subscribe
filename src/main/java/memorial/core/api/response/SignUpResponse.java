@@ -1,32 +1,26 @@
 package memorial.core.api.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import memorial.core.common.enums.BenefitType;
 import memorial.core.common.enums.MemberGrade;
 import memorial.core.domain.member.Member;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class SignUpResponse {
+public record SignUpResponse(
+    Long id,
+    String name,
+    String phone,
+    MemberGrade memberGrade,
+    BenefitType benefitType,
+    Boolean isBenefit
+) {
 
-    private Long id;
-    private String name;
-    private String phone;
-    private MemberGrade memberGrade;
-    private BenefitType benefitType;
-    private Boolean isBenefit;
-
-    public static SignUpResponse of(Member savedMember) {
+    public static SignUpResponse from(Member member) {
         return new SignUpResponse(
-                savedMember.getId(),
-                savedMember.getName(),
-                savedMember.getPhone(),
-                savedMember.getMemberGrade(),
-                savedMember.getBenefitType(),
-                savedMember.getIsBenefit()
+                member.getId(),
+                member.getName(),
+                member.getPhone(),
+                member.getMemberGrade(),
+                member.getBenefitType(),
+                member.getIsBenefit()
         );
     }
 }

@@ -2,7 +2,7 @@ package memorial.core.domain.memorial;
 
 import memorial.core.api.request.MemorialDeadDto;
 import memorial.core.api.request.MemorialRequestDto;
-import memorial.core.api.response.MemorialResponseDto;
+import memorial.core.api.response.MemorialResponse;
 import memorial.core.common.enums.ChurchStatus;
 import memorial.core.common.enums.MemberGrade;
 import memorial.core.common.enums.MemberStatus;
@@ -102,7 +102,7 @@ class MemorialServiceTest {
         when(memberRepository.findById(memorialRequestDto.memberId())).thenReturn(Optional.ofNullable(testMember));
         when(memorialRepository.save(any(Memorial.class))).thenReturn(memorial);
 
-        MemorialResponseDto responseDto = memorialService.save(memorialRequestDto);
+        MemorialResponse responseDto = memorialService.save(memorialRequestDto);
 
         // then
         assertNotNull(responseDto);

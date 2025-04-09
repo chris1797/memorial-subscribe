@@ -3,15 +3,12 @@ package memorial.core.domain.memorial;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
-import memorial.core.api.request.MemorialRequestDto;
-import memorial.core.api.response.MemorialResponseDto;
+import memorial.core.api.response.MemorialResponse;
 import memorial.core.common.enums.MemorialStatus;
 import memorial.core.domain.BaseEntity;
 import memorial.core.domain.church.Church;
 import memorial.core.domain.member.Member;
-import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -29,10 +26,10 @@ public class Memorial extends BaseEntity {
     // columnDefinition: DDL 생성 시 기본값을 설정함
     // columnDefinition 설정, 혹은 아래처럼 직접 default 값을 설정
     @Column(nullable = false, columnDefinition = "boolean default true")
-    private boolean isInside = true;
+    private Boolean isInside = true;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean isPublic = false;
+    private Boolean isPublic = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -50,17 +47,6 @@ public class Memorial extends BaseEntity {
                 isPublic,
                 member,
                 church
-        );
-    }
-
-    public MemorialResponseDto toResponseDto() {
-        return new MemorialResponseDto(
-                this.getId(),
-                this.member.getId(),
-                this.church.getId(),
-                this.title,
-                this.isInside,
-                this.isPublic
         );
     }
 

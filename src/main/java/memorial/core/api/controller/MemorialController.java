@@ -3,7 +3,7 @@ package memorial.core.api.controller;
 import lombok.RequiredArgsConstructor;
 import memorial.core.api.ApiResponse;
 import memorial.core.api.request.MemorialRequestDto;
-import memorial.core.api.response.MemorialResponseDto;
+import memorial.core.api.response.MemorialResponse;
 import memorial.core.domain.memorial.MemorialService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ public class MemorialController {
 
 
     @PostMapping("/memorial")
-    public ApiResponse<MemorialResponseDto> save(@RequestBody MemorialRequestDto requestDto) {
+    public ApiResponse<MemorialResponse> save(@RequestBody MemorialRequestDto requestDto) {
         return ApiResponse.success(memorialService.save(requestDto));
     }
 
