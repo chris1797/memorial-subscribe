@@ -48,14 +48,15 @@ public class MemberService {
     }
 
     public LoginResponse login(LoginRequestDto loginRequestDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequestDto.name(), loginRequestDto.password())
-        );
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(loginRequestDto.name(), loginRequestDto.password());
+
+        Authentication authentication = authenticationManager.authenticate(token);
 
         String jwtToken = jwtTokenProvider.generateToken(authentication);
 
         // DB를 통한 검증 시
-        Member member = memberRepository.findByPhone(loginRequestDto.name())
+        Member member = memberRepository.findByName(loginRequestDto.name())
                 .orElseThrow(() -> new IllegalArgumentException("해당 이름의 사용자가 없습니다."));
 
         if (!passwordEncoder.matches(loginRequestDto.password(), member.getPassword())) {

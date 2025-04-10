@@ -12,11 +12,13 @@ import memorial.core.domain.member.Member;
 public class CustomAuthMemberInfo extends Member {
 
     private String username;
+    private String password;
     private String role;
 
-    public static CustomAuthMemberInfo of(String name, MemberGrade memberGrade) {
+    public static CustomAuthMemberInfo of(String name, String password, MemberGrade memberGrade) {
         return new CustomAuthMemberInfo(
                 name,
+                password,
                 memberGrade.name()
         );
     }

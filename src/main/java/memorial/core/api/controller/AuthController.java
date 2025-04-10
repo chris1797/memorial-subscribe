@@ -26,7 +26,7 @@ public class AuthController {
         return ApiResponse.success(memberService.signUp(signUpRequest));
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ApiResponse<LoginResponse> login(LoginRequestDto loginRequestDto) {
         return ApiResponse.success(memberService.login(loginRequestDto));
     }

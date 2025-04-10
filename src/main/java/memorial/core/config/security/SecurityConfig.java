@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 예외 처리 핸들러 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/signUp").permitAll()
+                        .requestMatchers("/api/auth/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 // JWT 필터 추가

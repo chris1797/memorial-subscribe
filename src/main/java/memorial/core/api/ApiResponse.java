@@ -7,13 +7,13 @@ import memorial.core.api.error.ErrorResponse;
 @Getter
 public class ApiResponse<T> {
 
-    private final ResultType resultType;
+    private final ResultType result;
     private final T data;
     private final ErrorResponse error;
 
 
-    public ApiResponse(ResultType resultType, T data, ErrorResponse error) {
-        this.resultType = resultType;
+    public ApiResponse(ResultType result, T data, ErrorResponse error) {
+        this.result = result;
         this.data = data;
         this.error = error;
     }
@@ -31,6 +31,6 @@ public class ApiResponse<T> {
     }
 
     public static ApiResponse<?> error(ErrorCode errorCode, Object errorData) {
-        return new ApiResponse<>(ResultType.FAILURE, null, new ErrorResponse(errorCode, errorCode.getMessage(), errorData));
+        return new ApiResponse<>(ResultType.FAILURE, null, new ErrorResponse(errorCode, errorCode.getMessage(), null));
     }
 }
